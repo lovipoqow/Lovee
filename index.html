@@ -81,7 +81,7 @@
 
     <div class="input-container">
       <input type="text" id="nameInput" placeholder="Enter your name" />
-      <span class="tick" id="tick1">✔</span>
+      
     </div>
 
     <div class="input-container" id="codeInputContainer" style="display:none;">
@@ -89,7 +89,7 @@
       Submit
     </button>
       <input type="text" id="codeInput" placeholder="Enter your unique code" />
-      <span class="tick" id="tick2">✔</span>
+      
     </div>
   </div>
 
@@ -106,8 +106,8 @@
   <script>
     const nameInput = document.getElementById("nameInput");
     const codeInput = document.getElementById("codeInput");
-    const tick1 = document.getElementById("tick1");
-    const tick2 = document.getElementById("tick2");
+    
+    
     const codeInputContainer = document.getElementById("codeInputContainer");
     const formScreen = document.getElementById("form-screen");
     const loading = document.getElementById("loading");
@@ -116,10 +116,10 @@
 
     nameInput.addEventListener("input", () => {
       if (nameInput.value.trim().length > 0) {
-        tick1.style.display = "block";
+        
         codeInputContainer.style.display = "block";
       } else {
-        tick1.style.display = "none";
+        
         codeInputContainer.style.display = "none";
       }
       toggleSubmit();
@@ -127,9 +127,9 @@
 
     codeInput.addEventListener("input", () => {
       if (codeInput.value.trim().length > 0) {
-        tick2.style.display = "block";
+        
       } else {
-        tick2.style.display = "none";
+        
       }
       toggleSubmit();
     });
